@@ -25,12 +25,17 @@ void swap(int *a, int *b) {
    
 /*@ 
   requires \valid(t+(low..high));
-  ensures \result < ;
+  ensures \forall integer n; n <= \result ==> t[n] <= high;
 */
 int partition(int *t, int low, int high) {
   int pivot = t[high];    // pivot
   int i = low;  // Index of smaller element
-
+  
+  /*@
+    loop invariant low <= j < high && low <= i < high - low;
+    loop assigns j, i;
+    loop variant j - i;
+  */
   for (int j = low; j < high; j++) {
     // If current element is smaller than or
     // equal to pivot
