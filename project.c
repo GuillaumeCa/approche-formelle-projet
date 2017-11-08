@@ -1,10 +1,15 @@
 #include <stdio.h>
 
-/*
-  @ requires \valid(a) && \valid(b);
-  @ ensures A: *a == \old(*b);
-  @ ensures B: *b == \old(*a);
-  @ assigns *a, *b;
+/*@
+  predicate sorted{L}(int *arr, int length) =
+    \forall integer i, j; 0 <= i <= j < length ==> arr[i] <= arr[j];
+*/
+
+/*@ 
+  requires \valid(a) && \valid(b);
+  ensures A: *a == \old(*b);
+  ensures B: *b == \old(*a);
+  assigns *a, *b;
 */
 void swap(int *a, int *b) {
     int t = *a;
@@ -18,10 +23,11 @@ void swap(int *a, int *b) {
    to left of pivot and all greater elements to right
    of pivot */
    
-/*
-  @ requires valid(t);
+/*@ 
+  requires \valid(t+(low..high));
+  ensures \result = low;
 */
-int partition (int *t, int low, int high) {
+int partition(int *t, int low, int high) {
   int pivot = t[high];    // pivot
   int i = (low - 1);  // Index of smaller element
 
@@ -42,8 +48,9 @@ int partition (int *t, int low, int high) {
   low  --> Starting index,
   high  --> Ending index */
 
-/*
-  @ requires valid(t);
+/*@ 
+  requires \valid(t+(low..high));
+  ensures \forall integer i, j; low <= i <= j < high ==> t[i] <= t[j];
 */
 void quickSort(int *t, int low, int high) {
   if (low < high) {
@@ -53,17 +60,30 @@ void quickSort(int *t, int low, int high) {
 
     // Separately sort elements before
     // partition and after partition
+    
+    /*@ 
+      requires \valid(t+(low..pi-1));
+      ensures \forall integer i, j; low <= i <= j < high ==> t[i] <= t[j];
+    */
     quickSort(t, low, pi - 1);
+    
+    /*@ 
+      requires \valid(t+(pi+1..high));
+      ensures \forall integer i, j; low <= i <= j < high ==> t[i] <= t[j];
+    */
     quickSort(t, pi + 1, high);
   }
 }
 
-
-
-/*
-  @ requires valid(t);
+/*@ 
+  requires \valid(t+(0..l-1));
+  ensures sorted(t, l);
 */
 void sort(int *t, int l) {
+  /*@ 
+    requires \valid(t+(0..l-1));
+    ensures \forall integer i, j; 0 <= i <= j < l-1 ==> t[i] <= t[j];
+  */
   quickSort(t, 0, l - 1);
 }
 
