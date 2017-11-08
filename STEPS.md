@@ -4,3 +4,4 @@
   - valid + range
 2. predicate sorted
   - verifier que le tableau a été trié
+3. loop
