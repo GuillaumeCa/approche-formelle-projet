@@ -2,9 +2,9 @@
 
 /*
   @ requires \valid(a) && \valid(b);
-  @ ensures A: ∗a == \old(∗b);
-  @ ensures B: ∗b == \old(∗a);
-  @ assigns ∗a,∗b;
+  @ ensures A: *a == \old(*b);
+  @ ensures B: *b == \old(*a);
+  @ assigns *a, *b;
 */
 void swap(int *a, int *b) {
     int t = *a;
@@ -44,7 +44,6 @@ int partition (int *t, int low, int high) {
 
 /*
   @ requires valid(t);
-  @ 
 */
 void quickSort(int *t, int low, int high) {
   if (low < high) {
