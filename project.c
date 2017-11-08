@@ -25,22 +25,22 @@ void swap(int *a, int *b) {
    
 /*@ 
   requires \valid(t+(low..high));
-  ensures \result = low;
+  ensures \result < ;
 */
 int partition(int *t, int low, int high) {
   int pivot = t[high];    // pivot
-  int i = (low - 1);  // Index of smaller element
+  int i = low;  // Index of smaller element
 
-  for (int j = low; j <= high- 1; j++) {
+  for (int j = low; j < high; j++) {
     // If current element is smaller than or
     // equal to pivot
     if (t[j] <= pivot) {
-      i++;    // increment index of smaller element
       swap(&t[i], &t[j]);
+      i++;    // increment index of smaller element
     }
   }
-  swap(&t[i + 1], &t[high]);
-  return (i + 1);
+  swap(&t[i], &t[high]);
+  return i;
 }
  
 /* The main function that implements QuickSort
