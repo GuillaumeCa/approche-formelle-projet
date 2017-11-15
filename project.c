@@ -66,16 +66,8 @@ void quickSort(int *t, int low, int high) {
     // Separately sort elements before
     // partition and after partition
     
-    /*@ 
-      requires \valid(t+(low..pi-1));
-      ensures \forall integer i, j; low <= i <= j < high ==> t[i] <= t[j];
-    */
     quickSort(t, low, pi - 1);
     
-    /*@ 
-      requires \valid(t+(pi+1..high));
-      ensures \forall integer i, j; low <= i <= j < high ==> t[i] <= t[j];
-    */
     quickSort(t, pi + 1, high);
   }
 }
@@ -94,11 +86,11 @@ void sort(int *t, int l) {
 
 void affiche(int *t, int l) { 
   int i;
-  printf("{ ");
+  printf("[ ");
   for (i=0; i<l-1; i++) {
     printf("%d, ",t[i]); 
   }
-  printf("%d}\n",t[i]); 
+  printf("]\n"); 
 }
 
 
